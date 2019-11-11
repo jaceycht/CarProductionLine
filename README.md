@@ -70,13 +70,12 @@ Requirements:
 a. Deadlock detection: you don’t know whether you will encounter deadlock or not ahead. But once your program detects that certain threads runs for unreasonable amount of time, you know that deadlock happens. Then you figure out a way to break the deadlock so that the production process can move on. sem_trywait() or sem_timedwait() may be useful here.
 b. Deadlock prevention: once the production goal is set, you know the number of each part to achieve the goal. You also know how many spaces you have. Your program may analyse these data and assign jobs to workers properly so that deadlock will not happen for sure.
 
-> I realised that, in my main program in question 2, it has to wait for all workers to finish their tasks before moving to the next round (or building the next car). This is solved by moving the "thread-joining part" outside of other loops. 
+> I realised that, in my main program in question 2, it has to wait for all workers to finish their tasks before moving to the next round (or building the next car). This is solved by moving the "thread-joining part" outside of other loops in question 3. 
 
-> Besides, my program in question 2 produces wasted parts that are unnecessary. Modifications are made to not assign a thread to each worker. Instead, worker can start a new thread after the previous task is done. 
+> Besides, my program in question 2 produces wasted parts that are unnecessary. Modifications are made for question 3 to not assign a thread to each worker. Instead, worker can start a new thread after the previous task is done. 
 
 > Even with better tasks scheduling in the modified program, deadlock will be triggered if there is no storage space in the middle of production and the whole program halts. In my program, the first worker gets the first job, the second worker gets the second job, the next worker gets the next job... Deadlock occurs when storage spaces are occupied by other items made in previous jobs but no worker is assigned to get the items from the storage space yet. Improvements shall be done on this part. Say, there is only one storage space but more than two workers. To build a car, we can ask the first worker to do the first job and then ask the second worker to keep the item. Once the second worker gets all necessary items (i.e., skeleton, engine, and chassis), he/she can start making the body. The first worker can continue to make items like the window, tire, and battery pack. Once ready, the items are passed to the second worker again to make the actual car. Currently I just detect for deadlock and exit the program when necessasry. 
 
 > Nevertheless, my program has a high scalability with the number of workers and production time. It is tested by making 10 cars with 40 storage spaces and different number of workers: (1) The production time decreases with the increasing number of workers. (2) The production time remains more or less the same despite the decrease in number of storage spaces. (3) Instead of doubling or tripling the amount of time required, the making of one extra car only needs roughly five more seconds.
-
 
 
